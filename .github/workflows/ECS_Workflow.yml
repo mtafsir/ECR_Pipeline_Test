@@ -8,8 +8,6 @@ jobs:
   ECR-Deployment:
     runs-on: ubuntu-latest
     steps:
-      - name: print greeting
-        run: echo "Hello World"
-      - name: print goodbye
-        run : echo "Good Bye!" 
+      - name: google Monitoring
+        uses: ./Project_1/Production/main.yml
 

@@ -13,7 +13,7 @@ jobs:
     runs-on: unbuntu-latest
     steps:
       - name: Checkout Repo
-        user: actions/checkout@v3
+        uses: actions/checkout@v3
         with:
           repository: mtafsir/LambdaTerraformPipeline
           token: ${{ secrets.PAT }}
