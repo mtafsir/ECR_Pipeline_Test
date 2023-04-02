@@ -1,15 +1,25 @@
-name: ECS Workflow
+name: Workflow 1
 on: 
   push:
-    branches: [New_ECS]
+    branches: 
+      - New_ECS
+      - main
+    paths:
+      - 'ECR_Container_Test/**'
   workflow_dispatch:
   
 jobs:
-  ECR-Deployment:
+  ECR-Second:
     runs-on: ubuntu-latest
     steps:
-      - name: print greeting
-        run: echo "Hello World"
-      - name: print goodbye
-        run : echo "Good Bye!" 
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        if: "startsWith('${{ github.ref_name }}', 'New_ECS')"
+        with:
+          repository: mtafsir/ECR_Pipeline_Test
+          token: ${{ secrets.PAT }}
+          ref: New_ECS
+      - name : testing
+        run: ls
+
 
