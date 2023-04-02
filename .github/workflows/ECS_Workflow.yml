@@ -17,7 +17,7 @@ jobs:
         with:
           repository: mtafsir/ECR_Pipeline_Test
           token: ${{ secrets.PAT }}
-          ref: ECR_Pipeline_Test
+          ref: New_ECS
       - name : testing
         run: env
 
