@@ -1,15 +1,25 @@
-name: ECS Workflow
+name: Workflow 1
 on: 
   push:
-    branches: [New_ECS]
+    branches: 
+      - ECR_Pipeline_Test
+      - main
+    paths:
+      - 'ECR_Container_Test/**'
   workflow_dispatch:
   
 jobs:
-  ECR-Deployment:
+  ECR-Second:
     runs-on: ubuntu-latest
     steps:
-      - name: google Monitoring
-        uses: ./.github/workflows/Project_1/Production/
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        if: "startsWith('${{ GITHUB_REF }}', 'src/')"
         with:
-          path: 'test.yml'
+          repository: mtafsir/ECR_Pipeline_Test
+          token: ${{ secrets.PAT }}
+          ref: ECR_Pipeline_Test
+      - name : testing
+        run: ls
+
 
