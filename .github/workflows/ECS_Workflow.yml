@@ -1,0 +1,15 @@
+name: ECS Workflow
+on: 
+  push:
+    branches: [New_ECS]
+  workflow_dispatch:
+  
+jobs:
+  ECR-Deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print greeting
+        run: echo "Hello World"
+      - name: print goodbye
+        run : echo "Good Bye!" 
+
