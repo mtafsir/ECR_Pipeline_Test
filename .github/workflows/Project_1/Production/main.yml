@@ -12,11 +12,5 @@ jobs:
   ECR-Second:
     runs-on: unbuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-        with:
-          repository: mtafsir/ECR_Pipeline_Test
-          token: ${{ secrets.PAT }}
-          ref: main
-      - name : test 
+      - name : testing
         run: ls
