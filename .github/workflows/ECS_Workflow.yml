@@ -2,7 +2,7 @@ name: Workflow 1
 on: 
   push:
     branches: 
-      - ECR_Pipeline_Test
+      - New_ECS
       - main
     paths:
       - 'ECR_Container_Test/**'
