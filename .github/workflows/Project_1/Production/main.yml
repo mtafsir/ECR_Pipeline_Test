@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  ECR-Deployment:
+  ECR-Second:
     runs-on: unbuntu-latest
     steps:
       - name: Checkout Repo
