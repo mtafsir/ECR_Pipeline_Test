@@ -14,12 +14,11 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-        if: "startsWith('${{ GITHUB_REF }}', 'src/')"
         with:
           repository: mtafsir/ECR_Pipeline_Test
           token: ${{ secrets.PAT }}
           ref: ECR_Pipeline_Test
       - name : testing
-        run: ls -la
+        run: env
 
 
