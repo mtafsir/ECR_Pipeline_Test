@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
         with:
-          repository: mtafsir/LambdaTerraformPipeline
+          repository: mtafsir/ECR_Pipeline_Test
           token: ${{ secrets.PAT }}
           ref: main
       - name : test 
