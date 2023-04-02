@@ -9,5 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: google Monitoring
-        uses: ./.github/workflows/Project_1/Production/main.yml
+        uses: ./.github/workflows/Project_1/Production/
+        with:
+          path: 'test.yml'
 
