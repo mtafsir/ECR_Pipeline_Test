@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+        if: "startsWith('${{ github.ref_name }}', 'New_ECS')"
         with:
           repository: mtafsir/ECR_Pipeline_Test
           token: ${{ secrets.PAT }}
