@@ -11,7 +11,7 @@ on:
 jobs:
   ECR-Second:
     runs-on: ubuntu-latest
-    if: "startsWith('${{ github.ref_name }}', 'New_ECS')"
+    if: ${{ github.ref == 'refs/heads/New_ECS' }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
