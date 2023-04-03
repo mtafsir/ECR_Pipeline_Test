@@ -2,7 +2,7 @@ FROM golang:1.19.7-alpine3.17
 
 # Setup AWS CLI
 RUN apk --no-cache add curl
-RUN apk add aws-CLI
+RUN apk add aws-cli
 
 # Add chromium
 RUN apk add chromium
