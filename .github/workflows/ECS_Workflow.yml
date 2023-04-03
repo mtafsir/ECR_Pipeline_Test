@@ -8,12 +8,14 @@ on:
       - 'ECR_Container_Test/**'
       - "Terraform/**"
   workflow_dispatch:
+
   
 jobs:
 
 
   # ECR Sandbox deployment
   ECR_Production_Push:
+
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/New_ECS' }}
     steps:
@@ -40,6 +42,16 @@ jobs:
           aws-region: us-east-1
 
       # Deploy image to AWS
+      - name: Build and push Docker image
+        working-directory: ECR_Container_Test
+        env:
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+          IMAGE_NAME: sandboxImageGoogle
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          $(aws ecr get-login --no-include-email)
+          docker build -t $ECR_REGISTRY/$IMAGE_NAME:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
       
       # Terraform Commands
       - name: Terraform fmt
@@ -64,11 +76,11 @@ jobs:
         run: terraform plan -no-color
         continue-on-error: true
 
-
       - name: Terraform Apply
         id: Apply
         working-directory: Terraform/ECS_Test
         run: terraform apply -auto-approve
+
 
   # ECR Prod deployment
   ECR_Sandbox_Push:
