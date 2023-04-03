@@ -10,8 +10,8 @@ RUN apk add chromium
 RUN mkdir /app
 ADD . /app
 WORKDIR /app
-RUN go get -u github.com/chromedp/chromedp
-RUN go build -o main .
+#RUN go get -u github.com/chromedp/chromedp
+#RUN go build -o main .
 
 WORKDIR /
 CMD ["tail", "-f", "/dev/null"]
