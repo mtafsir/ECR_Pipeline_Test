@@ -40,6 +40,6 @@ module subnet {
   infra_env                   = "Monitoring"
   public_subnet               = "10.0.1.0/24"
   private_subnet              = "10.0.2.0/24"
-  public_availability_zone    = "us-east-1"
-  private_availiability_zone  = "us-east-1"
+  public_availability_zone    = "us-east-1a"
+  private_availiability_zone  = "us-east-1a"
 }
