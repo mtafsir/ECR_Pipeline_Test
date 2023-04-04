@@ -25,7 +25,7 @@ resource "aws_ecr_repository" "Monitoring_repository" {
 
 module vpc {
 
-  source = "./modules/vpc"
+  source = "./modules/VPC"
 
   infra_env = "Monitoring"
   vpc_cidr = "10.0.0.0/17"
@@ -34,7 +34,7 @@ module vpc {
 
 module subnet {
 
-  source = "./modules/subnet"
+  source = "./modules/Subnet"
 
   vpc_id                      = module.vpc.vpc_id
   infra_env                   = "Monitoring"
