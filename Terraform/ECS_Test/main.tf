@@ -1,5 +1,5 @@
 terraform { 
- required_version = "> 1.0, < 1.2.7"
+ required_version = "> 1.1.7"
 
   # Terraform backend
   backend "s3" {
