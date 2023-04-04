@@ -61,7 +61,7 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: Terraform/ECS_Test
-        run: pwd && ls - la && terraform init
+        run: pwd && ls -la && terraform init
 
       - name: Terraform Validate
         id: validate
