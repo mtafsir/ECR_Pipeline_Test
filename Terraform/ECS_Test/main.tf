@@ -13,17 +13,6 @@ terraform {
 }
 
 
-
-#provider "aws" {
-# profile = "new-tf-user"
-# region = "us-east-1"
-#}
-
-#variable "ecr_repository" {
-#  type = string
-#}
-
-# private by default
 resource "aws_ecr_repository" "Monitoring_repository" {
   name                 = "test_ecr3"
   image_tag_mutability = "MUTABLE"
@@ -33,28 +22,24 @@ resource "aws_ecr_repository" "Monitoring_repository" {
   }
 }
 
-locals  {
-  ecrRepository = aws_ecr_repository.Monitoring_repository.repository_url
+
+module vpc {
+
+  source = "./modules/VPC"
+
+  infra_env = "Monitoring"
+  vpc_cidr = "10.0.0.0/17"
 }
 
-#resource "null_resource" "example" {
-  # A flag to make this always trigger on terraform apply. This will allow for a CI/CD for the image
-#   triggers = {
-#    always_run = timestamp()
-#  }
-  
-#  provisioner "local-exec" {
-#    command = <<-EOT
-#      go run Docker_push/Docker_push.go -uri=${aws_ecr_repository.Monitoring_repository.repository_url} -imageName="testingName" -activeDirectory=$(pwd)
 
-#    EOT
-       
+module subnet {
 
-#  }
-#}
+  source = "./modules/subnet"
 
-output "name" {
-  value       = local.ecrRepository
-  sensitive   = false
-  description = "This is the ecr url"
+  vpc_id                      = module.vpc.vpc_id
+  infra_env                   = "Monitoring"
+  public_subnet               = "10.0.1.0/24"
+  private_subnet              = "10.0.2.0/24"
+  public_availability_zone    = "us-east-1"
+  private_availiability_zone  = "us-east-1"
 }
