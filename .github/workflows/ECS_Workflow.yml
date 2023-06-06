@@ -25,7 +25,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: mtafsir/ECR_Pipeline_Test
-          token: ${{ secrets.PAT }}
           ref: New_ECS
       
       - name : testing
