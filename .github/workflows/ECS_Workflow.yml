@@ -1,4 +1,4 @@
-name: Workflow 1
+name: ECR_Apply
 on: 
   push:
     branches: 
@@ -6,10 +6,81 @@ on:
       - main
     paths:
       - 'ECR_Container_Test/**'
+      - "Terraform/**"
   workflow_dispatch:
+
   
 jobs:
-  ECR-Second:
+
+
+  # ECR Sandbox deployment
+  ECR_Production_Push:
+
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/New_ECS' }}
+    steps:
+
+      # Download the repository in concern
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          repository: mtafsir/ECR_Pipeline_Test
+          ref: New_ECS
+      
+      - name : testing
+        run: cd Terraform/ECS_Test
+      - name: testing 2  
+        run: ls
+
+      # Configure AWS Credentials  
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # Deploy image to AWS
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push docker image to Amazon ECR
+        working-directory: ECR_Container_Test
+        env:
+          REGISTRY: ${{ secrets.ECR_REGISTRY }}
+          REPOSITORY: test_ecr3
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      
+      # Terraform Commands
+
+      - name: Terraform Init
+        id: init
+        working-directory: Terraform/ECS_Test
+        run: ls -la && terraform init
+
+      - name: Terraform Validate
+        id: validate
+        working-directory: Terraform/ECS_Test
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: Terraform/ECS_Test
+        run: terraform plan -no-color
+        continue-on-error: true
+
+      - name: Terraform Apply
+        id: Apply
+        working-directory: Terraform/ECS_Test
+        run: terraform apply -auto-approve
+
+
+  # ECR Prod deployment
+  ECR_Sandbox_Push:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/New_ECS' }}
     steps:
@@ -22,4 +93,4 @@ jobs:
       - name : testing
         run: ls
 
-
+    # PR Comments
