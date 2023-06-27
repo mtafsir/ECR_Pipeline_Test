@@ -1,0 +1,53 @@
+name: "branch deploy demo"
+
+# The workflow to execute on is comments that are newly created
+on:
+  issue_comment:
+    types: [created]
+  pull_request:
+    types:
+      - closed
+      - opened
+    branches:
+      - main
+
+
+# Permissions needed for reacting and adding comments for IssueOps commands
+permissions:
+  id-token: write # This is required for requesting the JWT  
+  pull-requests: write
+  deployments: write
+  contents: write
+  checks: read
+
+jobs:
+  demo:
+    #if: ${{ github.event.issue.pull_request && github.actor == 'mtafsir' }} # only run on pull request comments
+    runs-on: ubuntu-latest
+    steps:
+      #- uses: github/branch-deploy@c16e98a3f71fd020ba0687c451efaff2d99a069b
+      #  id: branch-deploy
+      #  with:
+      #    trigger: ".deploy"
+
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::250406536798:role/GithubRoleOne
+          aws-region: us-east-1
+          
+      - name: Check Environment
+        run : env
+      
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Execute IssueOps branch deployment logic, hooray!
+      # This will be used to "gate" all future steps below and conditionally trigger steps/deployments
+      - name: Print Environment Variables
+        run: env
+        
+      - name: Provide GITHUB_ACTOR
+        run:  echo ${{env.GITHUB_TRIGGERING_ACTOR}}
+      
